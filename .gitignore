@@ -1,0 +1,33 @@
+# =============================
+# Symfony Framework Bundle
+# =============================
+/.env
+/.env.local
+/.env.local.php
+/.env.*.local
+/config/secrets/prod/prod.decrypt.private.php
+/public/bundles/
+/var/
+/vendor/
+
+# =============================
+# PHPUnit
+# =============================
+/phpunit.xml
+/.phpunit.cache/
+
+# =============================
+# Asset Mapper
+# =============================
+/public/assets/
+/assets/vendor/
+
+# =============================
+# Fichiers temporaires et IDE
+# =============================
+*.log
+*.cache
+*.swp
+/.idea/
+/.vscode/
+/*.iml

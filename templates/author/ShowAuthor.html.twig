@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello AuthorController!{% endblock %}
+
+{% block body %}
+    <div class="author-details">
+        <h1>{{ author.username }}</h1>
+
+        {% if author.picture is defined and author.picture %}
+            <img src="{{ author.picture }}" alt="Photo {{ author.username }}">
+        {% endif %}
+
+        <ul>
+            <li><strong>Email:</strong> {{ author.email }}</li>
+            <li><strong>Number of books:</strong> {{ author.nb_books }}</li>
+        </ul>
+    </div>
+{% endblock %}
