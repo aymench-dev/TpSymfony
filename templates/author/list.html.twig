@@ -5,9 +5,6 @@
 {% block body %}
     <h1>Authors</h1>
 
-    {% if noAuthors %}
-        <p>No authors found.</p>
-    {% else %}
         <p>Number of authors: {{ authorCount }}</p>
         <p>Total books: {{ totalBooks }}</p>
 
@@ -25,5 +22,4 @@
                 </li>
             {% endfor %}
         </ul>
-    {% endif %}
 {% endblock %}
