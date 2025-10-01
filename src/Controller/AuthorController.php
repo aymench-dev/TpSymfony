@@ -68,7 +68,5 @@ final class AuthorController extends AbstractController
                 ]);
             }
         }
-
-        throw $this->createNotFoundException('No Author.');
     }
 }
