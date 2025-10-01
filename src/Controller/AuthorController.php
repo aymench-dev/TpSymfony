@@ -46,7 +46,7 @@ final class AuthorController extends AbstractController
             ]);
         }
 
-        // Prepare authors: uppercase names and add details URL
+
         $authors = array_map(function (array $a) {
             $username = trim($a['username']);
             $a['username_upper'] = mb_strtoupper($username, 'UTF-8');
