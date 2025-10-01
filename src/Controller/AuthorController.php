@@ -35,18 +35,6 @@ final class AuthorController extends AbstractController
             ['id' => 3, 'picture' => '/images/Taha_Hussein.jpg', 'username' => 'Taha Hussein', 'email' => 'taha.hussein@gmail.com', 'nb_books' => 300],
         ];
 
-        $noAuthors = empty($listAuthors);
-
-        if ($noAuthors) {
-            return $this->render('author/list.html.twig', [
-                'authors' => [],
-                'noAuthors' => true,
-                'authorCount' => 0,
-                'totalBooks' => 0,
-            ]);
-        }
-
-
         $authors = array_map(function (array $a) {
             $username = trim($a['username']);
             $a['username_upper'] = mb_strtoupper($username, 'UTF-8');
@@ -59,7 +47,6 @@ final class AuthorController extends AbstractController
 
         return $this->render('author/list.html.twig', [
             'authors' => $authors,
-            'noAuthors' => false,
             'authorCount' => $authorCount,
             'totalBooks' => $totalBooks,
         ]);
