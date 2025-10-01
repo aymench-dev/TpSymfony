@@ -36,7 +36,7 @@ final class AuthorController extends AbstractController
         ];
 
         $authors = array_map(function (array $a) {
-            $username = trim($a['username']);
+            $username = $a['username'];
             $a['username_upper'] = mb_strtoupper($username, 'UTF-8');
             $a['detailsUrl'] = $this->generateUrl('author_details', ['id' => $a['id']]);
             return $a;
