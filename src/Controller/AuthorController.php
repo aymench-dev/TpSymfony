@@ -2,7 +2,12 @@
 
 namespace App\Controller;
 
+use App\Entity\Author;
+use App\Form\AuthorType;
+use App\Repository\AuthorRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -68,5 +73,92 @@ final class AuthorController extends AbstractController
                 ]);
             }
         }
+        throw $this->createNotFoundException('Author not found');
     }
+
+    #[Route('/listeAuthors', name: 'author_list_Db')]
+    public function listAuthorsDB(AuthorRepository $authorRepository): Response
+    {
+        $authors = $authorRepository->findAll();
+
+        $data = array_map(function ($a) {
+            return [
+                'id' => $a->getId(),
+                'username' => $a->getUsername(),
+                'email' => $a->getEmail(),
+            ];
+        }, $authors);
+
+        return $this->render('author/showlistauthor.html.twig', [
+            'authors' => $data,
+        ]);
+    }
+
+    #[Route('/authors/ajouter-static', name: 'author_ajouter_static')]
+    public function addStaticAuthor(EntityManagerInterface $em): Response
+    {
+        $author = new Author();
+        $author->setUsername('Alphonso de Lamartine');
+        $author->setEmail('alphonso.delamartine@gmail.com');
+
+        $em->persist($author);
+        $em->flush();
+        return new Response('Author : ' . $author->getUsername());
+    }
+
+    #[Route('/authors/ajouter', name: 'author_ajouter')]
+    public function newAuthor(Request $request, EntityManagerInterface $em): Response
+    {
+        $author = new Author();
+        $form = $this->createForm(AuthorType::class, $author);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em->persist($author);
+            $em->flush();
+            return $this->redirectToRoute('author_list_Db');
+        }
+
+        return $this->render('author/ajouter.html.twig', [
+            'form' => $form->createView(),
+        ]);
+    }
+
+    #[Route('/authors/{id}/edit', name: 'author_edit', requirements: ['id' => '\d+'])]
+    public function editAuthor(Request $request, AuthorRepository $authorRepository, EntityManagerInterface $em, int $id): Response
+    {
+        $author = $authorRepository->find($id);
+        if (!$author) {
+            throw $this->createNotFoundException('Author not found');
+        }
+
+        $form = $this->createForm(AuthorType::class, $author);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em->persist($author);
+            $em->flush();
+
+            return $this->redirectToRoute('author_list_Db');
+        }
+
+        return $this->render('author/ajouter.html.twig', [
+            'form' => $form->createView(),
+        ]);
+    }
+
+    #[Route('/authors/{id}/delete', name: 'author_delete', requirements: ['id' => '\d+'])]
+    public function deleteAuthor(AuthorRepository $authorRepository, EntityManagerInterface $em, int $id): Response
+    {
+        $author = $authorRepository->find($id);
+        if (!$author) {
+            throw $this->createNotFoundException('Author not found');
+        }
+
+        $em->remove($author);
+        $em->flush();
+
+        return $this->redirectToRoute('author_list_Db');
+    }
+
 }

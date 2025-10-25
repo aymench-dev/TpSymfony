@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+
+{% endblock %}
+
+{% block body %}
+    <h1>Update Book</h1>
+    {{ form_start(form) }}
+    {{ form_row(form.title) }}
+    {{ form_row(form.publicationDate) }}
+    {{ form_row(form.category) }}
+    {{ form_row(form.author) }}
+    {{ form_row(form.save) }}
+    {{ form_end(form) }}
+{% endblock %}
+

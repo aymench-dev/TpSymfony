@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}List of Books{% endblock %}
+
+{% block body %}
+    <h1>List of Books</h1>
+
+    {% if books is empty %}
+        <h2>No Books found</h2>
+    {% else %}
+        <table border="1" style="width: 80%; margin: 20px auto; border-collapse: collapse; text-align: center; font-family: serif;">
+            <thead>
+            <tr>
+                <th style="padding: 5px;">Title</th>
+                <th style="padding: 5px;">Publication date</th>
+                <th style="padding: 5px;">Published</th>
+                <th style="padding: 5px;">Category</th>
+                <th style="padding: 5px;">Author</th>
+                <th style="padding: 5px;">Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for book in books %}
+                <tr>
+                    <td>{{ book.title }}</td>
+                    <td>{{ book.publicationDate|date('F j, Y H:i') }}</td>
+                    <td>{{ book.enabled ? 1 : 0 }}</td>
+                    <td>{{ book.category }}</td>
+                    <td>{{ book.author.username}}</td>
+                    <td>
+                        <a href="{{ path('app_book_update', {'id': book.id}) }}">edit</a>
+                    <a href="{{ path('app_book_delete', {'id': book.id}) }}"
+                       onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce livre ?');">delete</a>
+                    <a href="{{ path('app_book_show', {'id': book.id}) }}">show</a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+
+    <div style="text-align: center; margin-top: 30px; font-family: serif;">
+        <p>Number of published books : {{ publishedCount }}</p>
+        <p>Number of unpublished books : {{ unpublishedCount }}</p>
+
+        <a href="{{ path('app_book_add') }}">
+            <button>Create new</button>
+        </a>
+    </div>
+
+{% endblock %}
+

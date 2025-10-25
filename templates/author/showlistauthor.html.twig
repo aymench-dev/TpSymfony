@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>List authors</title>
+    <style>
+        table { border-collapse: collapse; width: 60%; margin: 0 auto; }
+        th, td { border: 1px solid #000; padding: 6px 10px; }
+        th { font-weight: bold; text-align: center; }
+        h1 { text-align: center; font-family: serif; }
+    </style>
+</head>
+<body>
+<h1>List authors</h1>
+
+<table border="1">
+    <thead>
+    <tr>
+        <th>Username</th>
+        <th>Email</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for a in authors %}
+        <tr>
+            <td>{{ a.username }}</td>
+            <td>{{ a.email }}</td>
+            <td>
+                <a href="{{ path('author_edit', {'id': a.id}) }}">edit</a>
+                |
+                <a href="{{ path('author_delete', {'id': a.id}) }}" onclick="return confirm('Delete this author?');">delete</a>
+            </td>
+        </tr>
+    {% else %}
+        <tr><td colspan="3">No authors found.</td></tr>
+    {% endfor %}
+    </tbody>
+</table>
+</body>
+</html>

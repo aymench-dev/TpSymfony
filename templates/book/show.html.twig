@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Détails du Livre{% endblock %}
+
+{% block body %}
+    <h1>Book</h1>
+
+    <div>
+        <p>Title of Book: <strong>{{ book.title }}</strong></p>
+        <p>Publication date: <strong>{{ book.publicationDate|date('F j, Y H:i') }}</strong></p>
+        <p>Author: <strong>{{ book.author.username|default('N/A') }}</strong></p>
+    </div>
+
+{% endblock %}
